@@ -295,12 +295,13 @@
             width: 20px;
             height: 20px;
             border: 1px solid var(--grid-color);
-            background-color: var(--bg-color);
+            background-color: rgba(26, 26, 26, 0.3);
             transition: all 0.3s;
         }
 
         .skill-box.filled {
             background-color: var(--accent-color);
+            border-color: var(--accent-color);
             box-shadow: 0 0 8px rgba(0, 255, 136, 0.4);
         }
 
@@ -422,9 +423,12 @@
                 height: 18px;
             }
 
-            .info-grid {
-                grid-template-columns: 1fr;
-                gap: 1rem;
+            .about-info {
+                bottom: 1rem;
+                right: 1rem;
+                min-width: 240px;
+                padding: 1.2rem;
+                font-size: 0.85rem;
             }
         }
     </style>
@@ -444,33 +448,31 @@
         <div>Total: <span id="total-count">0</span></div>
     </div>
 
+    <div class="about-info" id="about-info">
+        <div class="info-item">
+            <div class="info-label">Name</div>
+            <div class="info-value">문재식 (Moon Jaesik)</div>
+        </div>
+        <div class="info-item">
+            <div class="info-label">Email</div>
+            <div class="info-value">answotlr54@gmail.com</div>
+        </div>
+        <div class="info-item">
+            <div class="info-label">Location</div>
+            <div class="info-value">Seoul, South Korea</div>
+        </div>
+        <div class="info-item">
+            <div class="info-label">Focus</div>
+            <div class="info-value">Data Engineering & ML Operations</div>
+        </div>
+    </div>
+
     <section id="about">
         <div class="container">
             <div class="typing-container">
                 <div class="typing-text">
                     <span id="typed-text"></span>
                     <span class="cursor"></span>
-                </div>
-            </div>
-
-            <div class="about-info">
-                <div class="info-grid">
-                    <div class="info-item">
-                        <div class="info-label">Focus</div>
-                        <div class="info-value">Data Engineering & ML Operations</div>
-                    </div>
-                    <div class="info-item">
-                        <div class="info-label">Location</div>
-                        <div class="info-value">Seoul, South Korea</div>
-                    </div>
-                    <div class="info-item">
-                        <div class="info-label">Experience</div>
-                        <div class="info-value">Building scalable data infrastructure & AI systems</div>
-                    </div>
-                    <div class="info-item">
-                        <div class="info-label">Contact</div>
-                        <div class="info-value">answotlr54@gmail.com</div>
-                    </div>
                 </div>
             </div>
         </div>
