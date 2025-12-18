@@ -1,0 +1,745 @@
+---
+---
+
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="generator" content={Astro.generator} />
+    <title>Moon Jaesik - Portfolio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-color: #000000;
+            --text-color: #ffffff;
+            --accent-color: #00ff88;
+            --section-bg: #0a0a0a;
+            --grid-color: #1a1a1a;
+        }
+
+        body {
+            font-family: 'IBM Plex Sans', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background-color: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 0;
+            z-index: 1000;
+            border-bottom: 1px solid #222;
+        }
+
+        nav ul {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        nav a {
+            color: var(--text-color);
+            text-decoration: none;
+            font-weight: 400;
+            font-size: 0.95rem;
+            transition: color 0.3s;
+            text-transform: lowercase;
+        }
+
+        nav a:hover {
+            color: var(--accent-color);
+        }
+
+        section {
+            min-height: 100vh;
+            padding: 6rem 2rem 4rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        h2 {
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            color: var(--text-color);
+            font-weight: 300;
+            text-transform: lowercase;
+        }
+
+        .container {
+            max-width: 1200px;
+            width: 100%;
+        }
+
+        .visitor-counter {
+            position: fixed;
+            top: 80px;
+            right: 20px;
+            background-color: rgba(17, 17, 17, 0.9);
+            padding: 1rem;
+            border-radius: 8px;
+            border: 1px solid #333;
+            font-size: 0.9rem;
+            z-index: 999;
+        }
+
+        .visitor-counter div {
+            margin: 0.3rem 0;
+        }
+
+        .visitor-counter span {
+            color: var(--accent-color);
+            font-weight: bold;
+        }
+
+        /* About Section */
+        #about {
+            background-color: var(--bg-color);
+        }
+
+        .typing-container {
+            min-height: 200px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        .typing-text {
+            font-size: 2rem;
+            font-weight: 300;
+            color: var(--text-color);
+            min-height: 3em;
+            display: flex;
+            align-items: center;
+        }
+
+        .cursor {
+            display: inline-block;
+            width: 2px;
+            height: 1.2em;
+            background-color: var(--accent-color);
+            margin-left: 4px;
+            animation: blink 1s infinite;
+        }
+
+        @keyframes blink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0; }
+        }
+
+        .about-info {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background-color: rgba(17, 17, 17, 0.95);
+            border: 1px solid #333;
+            border-radius: 8px;
+            padding: 1.5rem;
+            min-width: 280px;
+            z-index: 500;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.5s, transform 0.5s;
+        }
+
+        .about-info.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .info-item {
+            margin-bottom: 1rem;
+        }
+
+        .info-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .info-label {
+            font-size: 0.75rem;
+            color: var(--accent-color);
+            font-weight: 500;
+            margin-bottom: 0.3rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .info-value {
+            font-size: 0.9rem;
+            color: var(--text-color);
+            line-height: 1.4;
+        }
+
+        /* Projects Section */
+        #projects {
+            background-color: var(--section-bg);
+        }
+
+        .projects-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .project-card {
+            background-color: #111;
+            border-radius: 8px;
+            border: 1px solid #333;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .project-card:hover {
+            border-color: var(--accent-color);
+        }
+
+        .project-image {
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(135deg, #1a1a1a, #2a2a2a);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            color: var(--accent-color);
+            border-bottom: 1px solid #333;
+        }
+
+        .project-content {
+            padding: 1.5rem;
+        }
+
+        .project-card h3 {
+            color: var(--accent-color);
+            margin-bottom: 0.8rem;
+            font-weight: 400;
+            font-size: 1.2rem;
+        }
+
+        .project-summary {
+            color: #aaa;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+
+        .project-detail {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease-out;
+            color: #ccc;
+            line-height: 1.8;
+        }
+
+        .project-card.expanded .project-detail {
+            max-height: 500px;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid #333;
+        }
+
+        /* Skills Section */
+        #skills {
+            background-color: var(--bg-color);
+        }
+
+        .skills-table {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .skill-row {
+            display: flex;
+            align-items: center;
+            padding: 1.2rem;
+            border-bottom: 1px solid var(--grid-color);
+            gap: 2rem;
+        }
+
+        .skill-row:last-child {
+            border-bottom: none;
+        }
+
+        .skill-name {
+            min-width: 180px;
+            font-size: 1rem;
+            font-weight: 400;
+            color: var(--text-color);
+        }
+
+        .skill-grid {
+            display: flex;
+            gap: 4px;
+            flex: 1;
+        }
+
+        .skill-box {
+            width: 20px;
+            height: 20px;
+            border: 1px solid var(--grid-color);
+            background-color: var(--bg-color);
+            transition: all 0.3s;
+        }
+
+        .skill-box.filled {
+            background-color: var(--accent-color);
+            box-shadow: 0 0 8px rgba(0, 255, 136, 0.4);
+        }
+
+        .skill-box.filled:hover {
+            box-shadow: 0 0 15px rgba(0, 255, 136, 0.8);
+        }
+
+        /* Contact Section */
+        #contact {
+            background-color: var(--section-bg);
+            min-height: 60vh;
+        }
+
+        .contact-form {
+            max-width: 600px;
+            width: 100%;
+            margin: 0 auto;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 0.8rem;
+            background-color: rgba(26, 26, 26, 0.5);
+            border: 1px solid #333;
+            border-radius: 4px;
+            color: var(--text-color);
+            font-family: 'IBM Plex Sans', sans-serif;
+            font-size: 0.95rem;
+        }
+
+        input::placeholder, textarea::placeholder {
+            color: #555;
+        }
+
+        input:focus, textarea:focus {
+            outline: none;
+            border-color: var(--accent-color);
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        button {
+            background-color: var(--accent-color);
+            color: #000;
+            padding: 0.8rem 2rem;
+            border: none;
+            border-radius: 4px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+            font-family: 'IBM Plex Sans', sans-serif;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 255, 136, 0.3);
+        }
+
+        footer {
+            text-align: center;
+            padding: 2rem;
+            background-color: var(--bg-color);
+            border-top: 1px solid #222;
+            font-size: 0.9rem;
+            color: #666;
+        }
+
+        @media (max-width: 768px) {
+            .typing-text {
+                font-size: 1.5rem;
+            }
+
+            h2 {
+                font-size: 2rem;
+            }
+
+            nav ul {
+                gap: 1rem;
+                font-size: 0.85rem;
+            }
+
+            .visitor-counter {
+                top: 70px;
+                right: 10px;
+                font-size: 0.8rem;
+                padding: 0.7rem;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .skill-row {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+
+            .skill-name {
+                min-width: auto;
+            }
+
+            .skill-box {
+                width: 18px;
+                height: 18px;
+            }
+
+            .info-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href="#about">about.</a></li>
+            <li><a href="#projects">projects.</a></li>
+            <li><a href="#skills">skills.</a></li>
+            <li><a href="#contact">contact.</a></li>
+        </ul>
+    </nav>
+
+    <div class="visitor-counter">
+        <div>Today: <span id="today-count">0</span></div>
+        <div>Total: <span id="total-count">0</span></div>
+    </div>
+
+    <section id="about">
+        <div class="container">
+            <div class="typing-container">
+                <div class="typing-text">
+                    <span id="typed-text"></span>
+                    <span class="cursor"></span>
+                </div>
+            </div>
+
+            <div class="about-info">
+                <div class="info-grid">
+                    <div class="info-item">
+                        <div class="info-label">Focus</div>
+                        <div class="info-value">Data Engineering & ML Operations</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Location</div>
+                        <div class="info-value">Seoul, South Korea</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Experience</div>
+                        <div class="info-value">Building scalable data infrastructure & AI systems</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Contact</div>
+                        <div class="info-value">answotlr54@gmail.com</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="projects">
+        <div class="container">
+            <h2>projects.</h2>
+            <div class="projects-grid">
+                <div class="project-card">
+                    <div class="project-image">📊</div>
+                    <div class="project-content">
+                        <h3>Data Pipeline Project</h3>
+                        <p class="project-summary">실시간 데이터 처리 파이프라인 구축 프로젝트</p>
+                        <div class="project-detail">
+                            Apache Kafka와 Apache Spark를 활용한 실시간 데이터 처리 파이프라인을 구축했습니다. 하루 1억 건 이상의 데이터를 처리하며, 데이터 품질 검증 및 모니터링 시스템을 함께 개발했습니다. AWS 기반으로 구축되었으며, 확장 가능한 아키텍처를 설계했습니다.
+                        </div>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <div class="project-image">🤖</div>
+                    <div class="project-content">
+                        <h3>ML Model Deployment</h3>
+                        <p class="project-summary">머신러닝 모델 배포 및 운영 자동화</p>
+                        <div class="project-detail">
+                            TensorFlow와 PyTorch로 개발된 머신러닝 모델을 프로덕션 환경에 배포하는 시스템을 구축했습니다. MLOps 파이프라인을 통해 모델 학습, 검증, 배포, 모니터링까지 전체 과정을 자동화했습니다. Kubernetes와 Docker를 활용하여 안정적인 서비스를 제공합니다.
+                        </div>
+                    </div>
+                </div>
+                <div class="project-card">
+                    <div class="project-image">☁️</div>
+                    <div class="project-content">
+                        <h3>Cloud Infrastructure</h3>
+                        <p class="project-summary">클라우드 기반 확장 가능한 인프라 구축</p>
+                        <div class="project-detail">
+                            AWS와 GCP를 활용한 멀티 클라우드 환경의 인프라를 구축했습니다. Terraform을 이용한 IaC(Infrastructure as Code) 구현으로 인프라 관리를 자동화했으며, Auto Scaling과 Load Balancing을 통해 안정적이고 확장 가능한 시스템을 구성했습니다.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="skills">
+        <div class="container">
+            <h2>skills.</h2>
+            <div class="skills-table">
+                <div class="skill-row">
+                    <div class="skill-name">Python</div>
+                    <div class="skill-grid">
+                        <div class="skill-box filled"></div>
+                        <div class="skill-box filled"></div>
+                        <div class="skill-box filled"></div>
+                        <div class="skill-box filled"></div>
+                        <div class="skill-box filled"></div>
+                        <div class="skill-box filled"></div>
+                        <div class="skill-box filled"></div>
+                        <div class="skill-box filled"></div>
+                        <div class="skill-box filled"></div>
+                        <div class="skill-box"></div>
+                    </div>
+                </div>
+                <div class="skill-row">
+                    <div class="skill-name">Data Engineering</div>
+                    <div class="skill-grid">
+                        <div class="skill-box filled"></div>
+                        <div class="skill-box filled"></div>
+                        <div class="skill-box filled"></div>
+                        <div class="skill-box filled"></div>
+                        <div class="skill-box filled"></div>
+                        <div class="skill-box filled"></div>
+                        <div class="skill-box filled"></div>
+                        <div class="skill-box filled"></div>
+                        <div class="skill-box"></div>
+                        <div class="skill-box"></div>
+                    </div>
+                </div>
+                <div class="skill-row">
+                    <div class="skill-name">Machine Learning</div>
+                    <div class="skill-grid">
+                        <div class="skill-box filled"></div>
+                        <div class="skill-box filled"></div>
+                        <div class="skill-box filled"></div>
+                        <div class="skill-box filled"></div>
+                        <div class="skill-box filled"></div>
+                        <div class="skill-box filled"></div>
+                        <div class="skill-box filled"></div>
+                        <div class="skill-box"></div>
+                        <div class="skill-box"></div>
+                        <div class="skill-box"></div>
+                    </div>
+                </div>
+                <div class="skill-row">
+                    <div class="skill-name">SQL / Database</div>
+                    <div class="skill-grid">
+                        <div class="skill-box filled"></div>
+                        <div class="skill-box filled"></div>
+                        <div class="skill-box filled"></div>
+                        <div class="skill-box filled"></div>
+                        <div class="skill-box filled"></div>
+                        <div class="skill-box filled"></div>
+                        <div class="skill-box filled"></div>
+                        <div class="skill-box filled"></div>
+                        <div class="skill-box"></div>
+                        <div class="skill-box"></div>
+                    </div>
+                </div>
+                <div class="skill-row">
+                    <div class="skill-name">Cloud (AWS/GCP)</div>
+                    <div class="skill-grid">
+                        <div class="skill-box filled"></div>
+                        <div class="skill-box filled"></div>
+                        <div class="skill-box filled"></div>
+                        <div class="skill-box filled"></div>
+                        <div class="skill-box filled"></div>
+                        <div class="skill-box filled"></div>
+                        <div class="skill-box filled"></div>
+                        <div class="skill-box"></div>
+                        <div class="skill-box"></div>
+                        <div class="skill-box"></div>
+                    </div>
+                </div>
+                <div class="skill-row">
+                    <div class="skill-name">JavaScript/TypeScript</div>
+                    <div class="skill-grid">
+                        <div class="skill-box filled"></div>
+                        <div class="skill-box filled"></div>
+                        <div class="skill-box filled"></div>
+                        <div class="skill-box filled"></div>
+                        <div class="skill-box filled"></div>
+                        <div class="skill-box filled"></div>
+                        <div class="skill-box"></div>
+                        <div class="skill-box"></div>
+                        <div class="skill-box"></div>
+                        <div class="skill-box"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact">
+        <div class="container">
+            <h2>contact.</h2>
+            <form class="contact-form" id="contact-form">
+                <div class="form-row">
+                    <input type="text" name="name" placeholder="이름" required />
+                    <input type="email" name="email" placeholder="이메일" required />
+                </div>
+                <div class="form-group">
+                    <textarea name="message" placeholder="메시지" required></textarea>
+                </div>
+                <button type="submit">보내기</button>
+            </form>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2025 Moon Jaesik. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // Smooth scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Typing effect
+        const sentences = [
+            "안녕하세요.",
+            "Data와 AI로 세상을 바꾸고자 하는 엔지니어ㆍ빌더 문재식입니다.",
+            "Hello.",
+            "I'm Moon Jaesik, an engineer and builder who wants to change the world with Data and AI."
+        ];
+
+        let sentenceIndex = 0;
+        let charIndex = 0;
+        let isDeleting = false;
+        let typingSpeed = 100;
+
+        function typeEffect() {
+            const currentSentence = sentences[sentenceIndex];
+            const typedTextElement = document.getElementById('typed-text');
+
+            if (!isDeleting && charIndex <= currentSentence.length) {
+                typedTextElement.textContent = currentSentence.substring(0, charIndex);
+                charIndex++;
+                typingSpeed = 70;
+            } else if (isDeleting && charIndex >= 0) {
+                typedTextElement.textContent = currentSentence.substring(0, charIndex);
+                charIndex--;
+                typingSpeed = 5;
+            }
+            
+            if (charIndex === currentSentence.length && !isDeleting) {
+                isDeleting = true;
+                typingSpeed = 2000;
+            } else if (charIndex === 0 && isDeleting) {
+                isDeleting = false;
+                sentenceIndex = (sentenceIndex + 1) % sentences.length;
+                typingSpeed = 500;
+            }
+
+            setTimeout(typeEffect, typingSpeed);
+        }
+
+        typeEffect();
+
+        // Project card expand/collapse
+        document.querySelectorAll('.project-card').forEach(card => {
+            card.addEventListener('click', () => {
+                // Close all other cards
+                document.querySelectorAll('.project-card').forEach(otherCard => {
+                    if (otherCard !== card) {
+                        otherCard.classList.remove('expanded');
+                    }
+                });
+
+                // Toggle current card
+                card.classList.toggle('expanded');
+            });
+        });
+
+        // Contact form
+        const form = document.getElementById('contact-form');
+        form?.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const formData = new FormData(form);
+            const name = formData.get('name');
+            const email = formData.get('email');
+            const message = formData.get('message');
+
+            const mailtoLink = `mailto:answotlr54@gmail.com?subject=Portfolio Contact from ${name}&body=${encodeURIComponent(`From: ${name}\nEmail: ${email}\n\nMessage:\n${message}`)}`;
+            window.location.href = mailtoLink;
+        });
+
+        // Visitor counter
+        function updateVisitorCount() {
+            const today = new Date().toDateString();
+
+            let todayCount = parseInt(localStorage.getItem('todayCount') || '0');
+            let lastVisit = localStorage.getItem('lastVisit');
+
+            if (lastVisit !== today) {
+                todayCount = 1;
+                localStorage.setItem('lastVisit', today);
+            } else {
+                todayCount++;
+            }
+            localStorage.setItem('todayCount', todayCount.toString());
+
+            let totalCount = parseInt(localStorage.getItem('totalCount') || '0');
+            totalCount++;
+            localStorage.setItem('totalCount', totalCount.toString());
+
+            document.getElementById('today-count').textContent = todayCount.toString();
+            document.getElementById('total-count').textContent = totalCount.toString();
+        }
+
+        updateVisitorCount();
+    </script>
+</body>
+</html>
